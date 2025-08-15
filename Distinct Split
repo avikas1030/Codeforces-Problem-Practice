@@ -1,0 +1,48 @@
+# problem link - https://codeforces.com/problemset/problem/1791/D
+# code - 
+#include<bits/stdc++.h>
+using namespace std;
+int solve(string s, int n){
+    vector<int> freq(26, 0);
+    vector<int> prefixFreq(n, 0);
+    int maxFreq = 0;
+    for(int i=0; i<n; i++){
+        if(freq[s[i]-'a']==0){
+            maxFreq++;
+        }
+        freq[s[i]-'a'] = 1;
+        prefixFreq[i] = maxFreq;
+    }
+    fill(freq.begin(), freq.end(), 0);
+    maxFreq = 0;
+    vector<int> suffixFreq(n, 0);
+    for(int i=n-1; i>=0; i--){
+        if(freq[s[i]-'a']==0){
+            maxFreq++;
+        }
+        freq[s[i]-'a'] = 1;
+        suffixFreq[i] = maxFreq;
+    }
+    
+    int ans = 0;
+    for(int i=0; i<n-1; i++){
+        ans = max(ans, prefixFreq[i]+suffixFreq[i+1]);
+    }
+    return ans;
+}
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        string s;
+        cin>>s;
+        int ans = solve(s, n);
+        cout<<ans<<endl;
+    }
+    return 0;
+}
+
+// tc = O(n) = O(2*10^5)
+// sc = O(n) = O(2*10^5)
